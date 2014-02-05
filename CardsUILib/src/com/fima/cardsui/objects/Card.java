@@ -7,10 +7,15 @@ import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.appstrakt.android.core.data.adapters.IBindable;
+import com.appstrakt.android.core.helper2.LogcatHelper;
+import com.appstrakt.android.core.view.IBindableView;
 import com.fima.cardsui.R;
 import com.fima.cardsui.Utils;
 
-public abstract class Card extends AbstractCard {
+public abstract class Card extends AbstractCard implements IBindable {
+
+    private final static String TAG = "appstrakt_card";
 
     protected View mCardLayout;
     private OnCardSwiped onCardSwipedListener;
@@ -74,13 +79,6 @@ public abstract class Card extends AbstractCard {
 
         mCardLayout = view;
 
-        try {
-            ((FrameLayout) view.findViewById(R.id.cardContent))
-                    .addView(getCardContent(context));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
         // ((TextView) view.findViewById(R.id.title)).setText(this.title);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -90,6 +88,8 @@ public abstract class Card extends AbstractCard {
         lp.setMargins(0, 0, 0, bottom);
 
         view.setLayoutParams(lp);
+
+        bindView(view);
 
         return view;
     }
@@ -101,13 +101,6 @@ public abstract class Card extends AbstractCard {
 
         mCardLayout = view;
 
-        try {
-            ((FrameLayout) view.findViewById(R.id.cardContent))
-                    .addView(getCardContent(context));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
         // ((TextView) view.findViewById(R.id.title)).setText(this.title);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -117,6 +110,8 @@ public abstract class Card extends AbstractCard {
         lp.setMargins(0, 0, 0, bottom);
 
         view.setLayoutParams(lp);
+
+        bindView(view);
 
         return view;
     }
@@ -128,13 +123,6 @@ public abstract class Card extends AbstractCard {
 
         mCardLayout = view;
 
-        try {
-            ((FrameLayout) view.findViewById(R.id.cardContent))
-                    .addView(getCardContent(context));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
         // ((TextView) view.findViewById(R.id.title)).setText(this.title);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -145,10 +133,18 @@ public abstract class Card extends AbstractCard {
 
         view.setLayoutParams(lp);
 
+        bindView(view);
+
         return view;
     }
 
-    public abstract View getCardContent(Context context);
+    private void bindView(View v) {
+        if (v != null && v instanceof IBindableView) {
+
+        } else {
+            LogcatHelper.get().d(TAG, "Card view is null or not bindable ... FIX IT !! " + v == null ? "" : v.getClass().getSimpleName());
+        }
+    }
 
     public OnClickListener getClickListener() {
         return mListener;
@@ -173,11 +169,7 @@ public abstract class Card extends AbstractCard {
         this.onCardSwipedListener = onEpisodeSwipedListener;
     }
 
-    protected int getCardLayout() {
-        return R.layout.item_card;
-    }
-
-    protected int getId() {
+    protected int getLayoutId() {
         return R.id.cardContent;
     }
 
@@ -197,6 +189,7 @@ public abstract class Card extends AbstractCard {
      * Attempt to reuse convertCardView.  Should not modify convertCardView if it's
      * not compatible.  The implementer should check the card content part and
      * verify that it matches.
+     *
      * @param convertCardView the view to convert, with root Id equal to Card.getId()
      * @return true on success, false if not compatible
      */

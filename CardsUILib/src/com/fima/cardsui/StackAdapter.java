@@ -21,7 +21,6 @@ public class StackAdapter extends BaseAdapter {
         mContext = context;
         mStacks = stacks;
         mSwipeable = swipable;
-
     }
 
     @Override

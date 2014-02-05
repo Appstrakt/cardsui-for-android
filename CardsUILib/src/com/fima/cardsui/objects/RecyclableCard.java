@@ -56,13 +56,6 @@ public abstract class RecyclableCard extends Card {
     protected abstract int getCardLayoutId();
 
     @Override
-    public View getCardContent(Context context) {
-        View view = LayoutInflater.from(context).inflate(getCardLayoutId(), null);
-        applyTo(view);
-        return view;
-    }
-
-    @Override
     public boolean convert(View convertCardView) {
         View view = convertCardView.findViewById(getCardLayoutId());
         if (view == null) {

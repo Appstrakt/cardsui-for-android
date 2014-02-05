@@ -3,7 +3,7 @@ package com.fima.cardsui.objects;
 import android.content.Context;
 import android.view.View;
 
-public abstract class AbstractCard {
+public abstract class AbstractCard implements IAbstractCard{
 
 	protected int image;
 	protected String description, color, titleColor, desc, title, titlePlay;

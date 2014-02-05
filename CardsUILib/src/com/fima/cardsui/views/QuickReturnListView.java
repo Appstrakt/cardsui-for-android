@@ -5,7 +5,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
-public class QuickReturnListView extends ListView {
+import com.appstrakt.android.core.view.AppstraktListView;
+
+public class QuickReturnListView extends AppstraktListView {
 
 	private int mItemCount;
 	private int mItemOffsetY[];

@@ -44,6 +44,7 @@ public class CardStack extends AbstractCard {
 
         setTitle(title);
     }
+
     public ArrayList<Card> getCards() {
         return cards;
     }
@@ -83,16 +84,6 @@ public class CardStack extends AbstractCard {
         assert view != null;
         final RelativeLayout container = (RelativeLayout) view
                 .findViewById(R.id.stackContainer);
-        final TextView title = (TextView) view.findViewById(R.id.stackTitle);
-
-        if (!TextUtils.isEmpty(this.title)) {
-            if (stackTitleColor == null)
-                stackTitleColor = context.getResources().getString(R.color.card_title_text);
-
-            title.setTextColor(Color.parseColor(stackTitleColor));
-            title.setText(this.title);
-            title.setVisibility(View.VISIBLE);
-        }
 
         final int cardsArraySize = cards.size();
         final int lastCardPosition = cardsArraySize - 1;
@@ -108,21 +99,21 @@ public class CardStack extends AbstractCard {
             int topPx = 0;
 
             // handle the view
+            cardView = card.getView(context);
+            //Ignore first and last
+            /*
             if (i == 0) {
                 cardView = card.getViewFirst(context);
-            }
-            else if (i == lastCardPosition) {
+            } else if (i == lastCardPosition) {
                 cardView = card.getViewLast(context);
-            }
-            else {
+            } else {
                 cardView = card.getView(context);
-            }
+            }*/
 
             // handle the listener
             if (i == lastCardPosition) {
                 cardView.setOnClickListener(card.getClickListener());
-            }
-            else {
+            } else {
                 cardView.setOnClickListener(getClickListener(this, container, i));
             }
 
@@ -164,6 +155,7 @@ public class CardStack extends AbstractCard {
     /**
      * Attempt to modify the convertView instead of inflating a new View for this CardStack.
      * If convertView isn't compatible, it isn't modified.
+     *
      * @param convertView view to try reusing
      * @return true on success, false if the convertView is not compatible
      */
@@ -189,8 +181,8 @@ public class CardStack extends AbstractCard {
         Card card = cards.get(0);
         View convertCardView = container.getChildAt(0);
 
-        if (convertCardView == null || convertCardView.getId() != card.getId()) {
-            Log.d("CardStack", String.format("Can't convert view: child Id is 0x%x, card Id is 0x%x", convertCardView != null ? convertCardView.getId() : 0, card.getId()));
+        if (convertCardView == null || convertCardView.getId() != card.getLayoutId()) {
+            Log.d("CardStack", String.format("Can't convert view: child Id is 0x%x, card Id is 0x%x", convertCardView != null ? convertCardView.getId() : 0, card.getLayoutId()));
             return false;
         }
 
@@ -436,4 +428,8 @@ public class CardStack extends AbstractCard {
         return mPosition;
     }
 
+    @Override
+    public int getCardLayout() {
+        return 0;
+    }
 }
