@@ -115,10 +115,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 	 *            would like to dismiss this view.
 	 */
 	public SwipeDismissTouchListener(View view, Object token,
-			OnDismissCallback callback) {
+			OnDismissCallback callback, int minFlingVelocity) {
 		ViewConfiguration vc = ViewConfiguration.get(view.getContext());
 		mSlop = vc.getScaledTouchSlop() * 2;
-		mMinFlingVelocity = vc.getScaledMinimumFlingVelocity();
+		mMinFlingVelocity = minFlingVelocity;
 		mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
 		mAnimationTime = view.getContext().getResources()
 				.getInteger(android.R.integer.config_shortAnimTime);

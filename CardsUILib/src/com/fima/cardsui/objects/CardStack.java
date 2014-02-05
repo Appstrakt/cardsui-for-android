@@ -143,13 +143,15 @@ public class CardStack extends AbstractCard {
                         mAdapter.notifyDataSetChanged();
 
                     }
-                }));
+                }, getMinFlingVelocity()));
             }
-
             container.addView(cardView);
         }
-
         return view;
+    }
+
+    private int getMinFlingVelocity() {
+        return (int) Utils.convertDpToPixel(mContext, 500);
     }
 
     /**
