@@ -21,6 +21,7 @@ import com.fima.cardsui.StackAdapter;
 import com.fima.cardsui.objects.AbstractCard;
 import com.fima.cardsui.objects.Card;
 import com.fima.cardsui.objects.CardStack;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,8 @@ public class CardUI extends FrameLayout {
     private int mCachedVerticalScrollRange;
     private boolean mSwipeable = false;
     private OnRenderedListener onRenderedListener;
-    private StackAdapter mAdapter;
+    private StackAdapter mStackAdapter;
+    private SwingBottomInAnimationAdapter mAdapter;
     private View mHeader;
 
     /**
@@ -318,7 +320,9 @@ public class CardUI extends FrameLayout {
     public void refresh() {
 
         if (mAdapter == null) {
-            mAdapter = new StackAdapter(mContext, mStacks, mSwipeable);
+            mStackAdapter = new StackAdapter(mContext, mStacks, mSwipeable);
+            mAdapter = new SwingBottomInAnimationAdapter(mStackAdapter);
+            mAdapter.setAbsListView(mListView);
             if (mListView != null) {
                 mListView.setAdapter(mAdapter);
             } else if (mTableLayout != null) {
@@ -359,9 +363,9 @@ public class CardUI extends FrameLayout {
 
             }
         } else {
-            mAdapter.setSwipeable(mSwipeable); // in case swipeable changed;
-            mAdapter.setItems(mStacks);
-
+            mStackAdapter.setSwipeable(mSwipeable); // in case swipeable changed;
+            mStackAdapter.setItems(mStacks);
+            mAdapter.notifyDataSetChanged();
         }
 
     }
