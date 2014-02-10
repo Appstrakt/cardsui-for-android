@@ -1,7 +1,5 @@
 package com.fima.cardsui.objects;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 /**

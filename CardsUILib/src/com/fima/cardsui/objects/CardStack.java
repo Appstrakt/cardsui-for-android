@@ -1,16 +1,11 @@
 package com.fima.cardsui.objects;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.graphics.Color;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.fima.cardsui.R;
 import com.fima.cardsui.StackAdapter;
@@ -20,6 +15,8 @@ import com.fima.cardsui.Utils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ObjectAnimator;
+
+import java.util.ArrayList;
 
 public class CardStack extends AbstractCard {
     private static final float _12F = 12f;
