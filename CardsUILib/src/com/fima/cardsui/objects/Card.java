@@ -20,51 +20,6 @@ public abstract class Card extends AbstractCard implements IBindable {
     private OnCardSwiped onCardSwipedListener;
     private OnClickListener mListener;
 
-    public Card() {
-
-    }
-
-    public Card(String title) {
-        this.title = title;
-    }
-
-    public Card(String title, String desc) {
-        this.title = title;
-        this.desc = desc;
-    }
-
-    public Card(String title, int image) {
-        this.title = title;
-        this.image = image;
-    }
-
-    public Card(String title, String desc, int image) {
-        this.title = title;
-        this.desc = desc;
-        this.image = image;
-    }
-
-    public Card(String titlePlay, String description, String color,
-                String titleColor, Boolean hasOverflow, Boolean isClickable) {
-
-        this.titlePlay = titlePlay;
-        this.description = description;
-        this.color = color;
-        this.titleColor = titleColor;
-        this.hasOverflow = hasOverflow;
-        this.isClickable = isClickable;
-    }
-
-    public Card(String titlePlay, String description, int imageRes, String titleColor, Boolean hasOverflow,
-                Boolean isClickable) {
-
-        this.titlePlay = titlePlay;
-        this.description = description;
-        this.titleColor = titleColor;
-        this.hasOverflow = hasOverflow;
-        this.isClickable = isClickable;
-        this.imageRes = imageRes;
-    }
 
     @Override
     public View getView(Context context, boolean swipable) {

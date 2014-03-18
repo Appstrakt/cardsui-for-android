@@ -21,7 +21,7 @@ import com.fima.cardsui.StackAdapter;
 import com.fima.cardsui.objects.AbstractCard;
 import com.fima.cardsui.objects.Card;
 import com.fima.cardsui.objects.CardStack;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
 import java.util.ArrayList;
 
@@ -76,6 +76,7 @@ public class CardUI extends FrameLayout {
         initData(context);
     }
 
+
     /**
      * Constructor
      */
@@ -92,6 +93,12 @@ public class CardUI extends FrameLayout {
     public CardUI(Context context) {
         super(context);
         initData(context);
+    }
+
+    public void setEmptyView(View v) {
+        if (mListView != null) {
+            mListView.setEmptyView(v);
+        }
     }
 
     private void initData(Context context) {
@@ -367,7 +374,6 @@ public class CardUI extends FrameLayout {
             mStackAdapter.setItems(mStacks);
             mAdapter.notifyDataSetChanged();
         }
-
     }
 
     public void clearCards() {
@@ -394,5 +400,4 @@ public class CardUI extends FrameLayout {
     public interface OnRenderedListener {
         public void onRendered();
     }
-
 }

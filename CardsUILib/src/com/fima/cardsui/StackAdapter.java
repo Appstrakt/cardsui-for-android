@@ -9,6 +9,7 @@ import com.fima.cardsui.objects.AbstractCard;
 import com.fima.cardsui.objects.CardStack;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class StackAdapter extends BaseAdapter {
 
@@ -62,4 +63,19 @@ public class StackAdapter extends BaseAdapter {
         mStacks.set(position, cardStack);
     }
 
+    @Override
+    public boolean isEmpty() {
+        if (getCount() == 0) {
+            return true;
+        } else {
+            for (int i = 0; i < mStacks.size(); i++) {
+                CardStack stack = (CardStack) mStacks.get(i);
+                if (stack != null && stack.getCards() != null && stack.getCards().size() > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
 }

@@ -11,32 +11,6 @@ public abstract class RecyclableCard extends Card {
         super();
     }
 
-    public RecyclableCard(String title, int image) {
-        super(title, image);
-    }
-
-    public RecyclableCard(String titlePlay, String description, int imageRes,
-                          String titleColor, Boolean hasOverflow, Boolean isClickable) {
-        super(titlePlay, description, imageRes, titleColor, hasOverflow, isClickable);
-    }
-
-    public RecyclableCard(String title, String desc, int image) {
-        super(title, desc, image);
-    }
-
-    public RecyclableCard(String titlePlay, String description, String color,
-                          String titleColor, Boolean hasOverflow, Boolean isClickable) {
-        super(titlePlay, description, color, titleColor, hasOverflow, isClickable);
-    }
-
-    public RecyclableCard(String title, String desc) {
-        super(title, desc);
-    }
-
-    public RecyclableCard(String title) {
-        super(title);
-    }
-
     /**
      * Set the values of child views.  The view will not be null and
      * is guaranteed to have the layout of the root element equal to
