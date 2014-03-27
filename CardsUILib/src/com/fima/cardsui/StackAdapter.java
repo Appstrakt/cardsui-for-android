@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.fima.cardsui.objects.AbstractCard;
+import com.fima.cardsui.objects.Card;
 import com.fima.cardsui.objects.CardStack;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class StackAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<AbstractCard> mStacks;
     private boolean mSwipeable;
+
+    private OnCardRemovedListener mCardRemovedListener;
 
     public StackAdapter(Context context, ArrayList<AbstractCard> stacks,
                         boolean swipable) {
@@ -76,6 +79,19 @@ public class StackAdapter extends BaseAdapter {
             }
         }
         return true;
+    }
 
+    public void setCardRemovedListener(OnCardRemovedListener listener) {
+        mCardRemovedListener = listener;
+    }
+
+    public void onCardRemoved(Card card) {
+        if (mCardRemovedListener != null) {
+            mCardRemovedListener.onCardRemoved(card);
+        }
+    }
+
+    public interface OnCardRemovedListener {
+        public void onCardRemoved(Card c);
     }
 }

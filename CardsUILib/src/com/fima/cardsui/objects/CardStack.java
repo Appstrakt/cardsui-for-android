@@ -133,7 +133,7 @@ public class CardStack extends AbstractCard {
                         // call onCardSwiped() listener
                         c.OnSwipeCard();
                         cards.remove(c);
-
+                        mAdapter.onCardRemoved(c);
                         mAdapter.setItems(mStack, getPosition());
 
                         // refresh();
@@ -409,14 +409,12 @@ public class CardStack extends AbstractCard {
             @Override
             public void onAnimationCancel(Animator animation) {
                 // TODO Auto-generated method stub
-
             }
         };
     }
 
     public void setAdapter(StackAdapter stackAdapter) {
         mAdapter = stackAdapter;
-
     }
 
     public void setPosition(int position) {

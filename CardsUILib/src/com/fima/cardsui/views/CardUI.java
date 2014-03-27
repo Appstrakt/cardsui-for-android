@@ -66,6 +66,8 @@ public class CardUI extends FrameLayout {
     private SwingBottomInAnimationAdapter mAdapter;
     private View mHeader;
 
+    private StackAdapter.OnCardRemovedListener mOnCardRemovedListener;
+
     /**
      * Constructor
      */
@@ -135,7 +137,6 @@ public class CardUI extends FrameLayout {
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-
                         mQuickReturnHeight = mQuickReturnView.getHeight();
                         mListView.computeScrollY();
                         mCachedVerticalScrollRange = mListView.getListHeight();
@@ -241,7 +242,6 @@ public class CardUI extends FrameLayout {
     public void scrollToY(int y) {
 
         try {
-
             mListView.scrollTo(0, y);
         } catch (Exception e) {
             e.printStackTrace();
@@ -258,9 +258,14 @@ public class CardUI extends FrameLayout {
     }
 
     public void addSeparateCards(Card[] cards) {
-
         addSeparateCards(cards, false);
+    }
 
+    public Boolean isEmpty() {
+        if (mStackAdapter != null) {
+            return mStackAdapter.isEmpty();
+        }
+        return true;
     }
 
     public void addSeparateCards(Card[] cards, boolean refresh) {
@@ -293,7 +298,6 @@ public class CardUI extends FrameLayout {
 
     public void addCardToLastStack(Card card) {
         addCardToLastStack(card, false);
-
     }
 
     public void addCardToLastStack(Card card, boolean refresh) {
@@ -325,9 +329,9 @@ public class CardUI extends FrameLayout {
     //suppress this error message to be able to use spaces in higher api levels
     @SuppressLint("NewApi")
     public void refresh() {
-
         if (mAdapter == null) {
             mStackAdapter = new StackAdapter(mContext, mStacks, mSwipeable);
+            mStackAdapter.setCardRemovedListener(mOnCardRemovedListener);
             mAdapter = new SwingBottomInAnimationAdapter(mStackAdapter);
             mAdapter.setAbsListView(mListView);
             if (mListView != null) {
@@ -377,7 +381,7 @@ public class CardUI extends FrameLayout {
     }
 
     public void clearCards() {
-        mStacks = new ArrayList<AbstractCard>();
+        mStacks.clear();
         renderedCardsStacks = 0;
         refresh();
     }
@@ -399,5 +403,9 @@ public class CardUI extends FrameLayout {
 
     public interface OnRenderedListener {
         public void onRendered();
+    }
+
+    public void setOnCardRemovedListener(StackAdapter.OnCardRemovedListener onCardRemovedListener) {
+        this.mOnCardRemovedListener = onCardRemovedListener;
     }
 }
