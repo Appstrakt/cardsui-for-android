@@ -10,7 +10,6 @@ import com.fima.cardsui.objects.Card;
 import com.fima.cardsui.objects.CardStack;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class StackAdapter extends BaseAdapter {
 
