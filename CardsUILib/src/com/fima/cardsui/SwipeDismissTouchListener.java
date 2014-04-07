@@ -16,11 +16,16 @@
 
 package com.fima.cardsui;
 
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Transformation;
 
 import com.appstrakt.android.core.helper2.LogcatHelper;
 import com.nineoldandroids.animation.Animator;
@@ -73,6 +78,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private int mMinFlingVelocity;
     private int mMaxFlingVelocity;
     private long mAnimationTime;
+    private long mLongAnimationTime;
+
 
     // Fixed properties
     private View mView;
@@ -119,6 +126,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
         mAnimationTime = view.getContext().getResources()
                 .getInteger(android.R.integer.config_shortAnimTime);
+        mLongAnimationTime = view.getContext().getResources().getInteger(android.R.integer.config_longAnimTime);
         mView = view;
         mToken = token;
         mCallback = callback;
@@ -197,7 +205,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 } else {
                     // cancel
                     animate(mView).translationX(0).alpha(1)
-                            .setDuration(mAnimationTime).setListener(null);
+                            .setInterpolator(new BounceInterpolator())
+                            .setDuration(mLongAnimationTime).setListener(null);
 
                 }
                 mVelocityTracker.recycle();
@@ -231,8 +240,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mSwiping) {
                     mTranslationX = deltaX;
                     ViewHelper.setTranslationX(mView, deltaX);
-                    float alpha =1f- Math.max(0f, Math.min(1f,Math.abs(deltaX) / mViewWidth));
-                    LogcatHelper.Logcat.d("appstrakt", alpha + "");
+                    float alpha = 1f - Math.max(0f, Math.min(1f, Math.abs(deltaX) / mViewWidth));
                     // TODO: use an ease-out interpolator or such
                     setAlpha(
                             mView,
@@ -252,15 +260,39 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         // want to do something
         // smarter and more performant.
 
-        final ViewGroup.LayoutParams lp = mView.getLayoutParams();
+       /* final ViewGroup.LayoutParams lp = mView.getLayoutParams();
         final int originalHeight = mView.getHeight();
+        final int diff = originalHeight * -1;
 
-        ValueAnimator animator = ValueAnimator.ofInt(originalHeight, 1)
-                .setDuration(mAnimationTime);
-
-        animator.addListener(new AnimatorListenerAdapter() {
+        Animation heightAnimation = new Animation() {
             @Override
-            public void onAnimationEnd(Animator animation) {
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                mView.getLayoutParams().height = (int) (originalHeight + (diff * interpolatedTime));
+                mView.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+        heightAnimation.setDuration((int) (originalHeight / mView.getContext().getResources().getDisplayMetrics().density));
+        heightAnimation.setDuration(4000);
+        heightAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        heightAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if (Build.VERSION.SDK_INT >= 11) {
+                    mView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (Build.VERSION.SDK_INT >= 11) {
+                    mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                }
                 mCallback.onDismiss(mView, mToken);
                 // Reset view presentation
                 setAlpha(mView, 1f);
@@ -270,16 +302,17 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 lp.height = originalHeight;
                 mView.setLayoutParams(lp);
             }
-        });
 
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                lp.height = (Integer) valueAnimator.getAnimatedValue();
-                mView.setLayoutParams(lp);
-            }
-        });
+            public void onAnimationRepeat(Animation animation) {
 
-        animator.start();
+            }
+
+        });
+        mView.startAnimation(heightAnimation);*/
+        mCallback.onDismiss(mView, mToken);
+        //It does not mean that if it get swiped that it should be animated to 0 height ...
+        //This logic should be implemented in the app itself.
+        //This is app behaviour and not library behaviour
     }
 }

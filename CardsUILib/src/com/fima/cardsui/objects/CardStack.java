@@ -124,6 +124,7 @@ public class CardStack extends AbstractCard {
             cardView.setLayoutParams(lp);
 
             if (swipable) {
+                final View finalCardView = cardView;
                 cardView.setOnTouchListener(new SwipeDismissTouchListener(
                         cardView, card, new OnDismissCallback() {
 
@@ -132,12 +133,12 @@ public class CardStack extends AbstractCard {
                         Card c = (Card) token;
                         // call onCardSwiped() listener
                         c.OnSwipeCard();
-                        cards.remove(c);
-                        mAdapter.onCardRemoved(c);
-                        mAdapter.setItems(mStack, getPosition());
+                        //cards.remove(c);
+                        mAdapter.onCardRemoved(c, finalCardView);
+                        // mAdapter.setItems(mStack, getPosition());
 
                         // refresh();
-                        mAdapter.notifyDataSetChanged();
+                        //mAdapter.notifyDataSetChanged();
 
                     }
                 }, getMinFlingVelocity()));

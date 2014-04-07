@@ -84,13 +84,13 @@ public class StackAdapter extends BaseAdapter {
         mCardRemovedListener = listener;
     }
 
-    public void onCardRemoved(Card card) {
+    public void onCardRemoved(Card card, View v) {
         if (mCardRemovedListener != null) {
-            mCardRemovedListener.onCardRemoved(card);
+            mCardRemovedListener.onCardRemoved(card, v);
         }
     }
 
     public interface OnCardRemovedListener {
-        public void onCardRemoved(Card c);
+        public void onCardRemoved(Card c, View v);
     }
 }
