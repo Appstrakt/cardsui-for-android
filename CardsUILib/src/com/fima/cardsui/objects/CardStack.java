@@ -132,7 +132,7 @@ public class CardStack extends AbstractCard {
                     public void onDismiss(View view, Object token) {
                         Card c = (Card) token;
                         // call onCardSwiped() listener
-                        c.OnSwipeCard();
+                        //c.OnSwipeCard();
                         //cards.remove(c);
                         mAdapter.onCardRemoved(c, finalCardView);
                         // mAdapter.setItems(mStack, getPosition());
