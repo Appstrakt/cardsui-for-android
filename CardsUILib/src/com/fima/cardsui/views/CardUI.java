@@ -24,6 +24,7 @@ import com.fima.cardsui.objects.CardStack;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardUI extends FrameLayout {
 
@@ -65,6 +66,7 @@ public class CardUI extends FrameLayout {
     private StackAdapter mStackAdapter;
     private SwingBottomInAnimationAdapter mAdapter;
     private View mHeader;
+    private List<OnScrollListener> mScrollListeners;
 
     private StackAdapter.OnCardRemovedListener mOnCardRemovedListener;
 
@@ -142,7 +144,8 @@ public class CardUI extends FrameLayout {
                         mCachedVerticalScrollRange = mListView.getListHeight();
 
                     }
-                });
+                }
+        );
 
         mListView.setOnScrollListener(new OnScrollListener() {
             @SuppressLint("NewApi")
@@ -160,7 +163,8 @@ public class CardUI extends FrameLayout {
                 int rawY = mPlaceholderView.getTop()
                         - Math.min(
                         mCachedVerticalScrollRange
-                                - mListView.getHeight(), mScrollY);
+                                - mListView.getHeight(), mScrollY
+                );
 
                 switch (mState) {
                     case STATE_OFFSCREEN:
@@ -407,5 +411,13 @@ public class CardUI extends FrameLayout {
 
     public void setOnCardRemovedListener(StackAdapter.OnCardRemovedListener onCardRemovedListener) {
         this.mOnCardRemovedListener = onCardRemovedListener;
+    }
+
+    public void setOnScrollListener(OnScrollListener listener) {
+        mListView.setOnScrollListener(listener);
+    }
+
+    public int computeVerticalOffset() {
+        return mListView.computeVerticalScrollOffset();
     }
 }
