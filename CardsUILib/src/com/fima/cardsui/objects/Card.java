@@ -94,9 +94,9 @@ public abstract class Card extends AbstractCard implements IBindable {
 
     private void bindView(View v) {
         if (v != null && v instanceof IBindableView) {
-            ((IBindableView) v).bind(this,-1);
+            ((IBindableView) v).bind(this);
         } else {
-            LogcatHelper.get().d(TAG, "Card view is null or not bindable ... FIX IT !! " + v == null ? "" : v.getClass().getSimpleName());
+            LogcatHelper.get().d(TAG, "Card view is null or not bindable ... FIX IT !! " + (v == null ? "" : v.getClass().getSimpleName()));
         }
     }
 
